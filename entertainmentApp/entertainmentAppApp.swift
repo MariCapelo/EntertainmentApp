@@ -11,7 +11,7 @@ import SwiftUI
 struct entertainmentAppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ListTaskView()
         }
     }
 }
