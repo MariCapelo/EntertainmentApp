@@ -9,11 +9,7 @@ import SwiftUI
 
 struct ListTaskView: View {
     @State var tasks: [TaskModel] = [
-        TaskModel(title: "Task 1", date: Date()),
-        TaskModel(title: "Task 2", date: Date()),
-        TaskModel(title: "Task 3", date: Date()),
-        TaskModel(title: "Task 4", date: Date()),
-        TaskModel(title: "Task 5", date: Date()),
+        
     ]
     
     @State var addTask: Bool = false
@@ -21,20 +17,26 @@ struct ListTaskView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    ForEach(tasks) { task in
-                        TaskView(task: task)
-                            .swipeActions(allowsFullSwipe: false) {
-                                deleteTask(task)
-                            }
+                if tasks.isEmpty {
+                    Text("Ops, você ainda não possui tarefas")
+                        .fontWeight(.thin)
+                        .foregroundStyle(.secondary)
+                        
+                } else {
+                    Section {
+                        ForEach(tasks) { task in
+                            TaskView(task: task)
+                                .swipeActions(allowsFullSwipe: false) {
+                                    deleteTask(task)
+                                }
+                        }
+                    } header: {
+                        Text("Tasks")
+                    } footer: {
+                        Text("TOTAL: \(tasks.count)")
                     }
-                } header: {
-                    Text("Tasks")
-                } footer: {
-                    Text("TOTAL: \(tasks.count)")
                 }
-            }
-            .listStyle(.insetGrouped)
+            } //List
             .sheet(isPresented: $addTask) {
                 AddTaskView(tasks: $tasks)
             }

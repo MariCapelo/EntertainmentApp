@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// componente Task sendo criado
 struct TaskView: View {
     var task: TaskModel
     
@@ -14,8 +15,21 @@ struct TaskView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(task.title)
-                Text(task.date.formatted())
+                HStack{
+                    HStack{
+                        Image(systemName:"calendar")
+                        Text("Data")
+                        Text(getDate(task))
+                    }
                     .foregroundStyle(.secondary)
+                    
+                    HStack{
+                        Image(systemName: "clock")
+                        Text("Hora")
+                        Text(getHour(task))
+                    }
+                    .foregroundStyle(.secondary)
+                }
             }
             
             Spacer()
@@ -47,4 +61,14 @@ struct TaskView: View {
             isDone: false
         )
     )
+}
+
+extension View {
+    func getDate(_ task: TaskModel) -> String{
+        return task.date.formatted(.dateTime.day(.twoDigits).month(.twoDigits).year())
+    }
+    
+    func getHour(_ task: TaskModel) -> String{
+        return task.date.formatted(.dateTime.hour(.twoDigits(amPM: .omitted)).minute(.twoDigits))
+    }
 }
